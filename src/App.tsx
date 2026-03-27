@@ -515,33 +515,35 @@ function ServiceCard({
   wide?: boolean;
 }) {
   const Icon = service.icon;
-  const serviceBackground =
-    service.backgroundImage
-      ? {
-          backgroundImage: `linear-gradient(160deg, rgba(10, 12, 16, 0.82) 0%, rgba(10, 12, 16, 0.76) 46%, rgba(10, 12, 16, 0.92) 100%), url("${service.backgroundImage}")`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }
-      : undefined;
 
   return (
     <motion.div
       whileHover={{ scale: 1.025 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
-      style={serviceBackground}
       className={`relative group rounded-2xl overflow-hidden cursor-default border border-white/5 bg-gradient-to-br from-[#13161E] to-[#0F1117] p-6 sm:p-8 flex flex-col justify-between ${
         large ? 'h-full min-h-[380px]' : wide ? 'h-full min-h-[180px]' : 'h-full min-h-[220px]'
       }`}
     >
+      {service.backgroundImage && (
+        <img
+          src={service.backgroundImage}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0C10]/85 via-[#0A0C10]/75 to-[#0A0C10]/92 pointer-events-none" />
+
       {/* Gradient border on hover */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+      <div className="absolute inset-0 rounded-2xl z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           background: 'linear-gradient(135deg, rgba(232,93,4,0.12) 0%, transparent 60%)',
         }}
       />
-      <div className="absolute inset-0 rounded-2xl border border-[#E85D04]/0 group-hover:border-[#E85D04]/25 transition-all duration-300 pointer-events-none" />
+      <div className="absolute inset-0 rounded-2xl z-20 border border-[#E85D04]/0 group-hover:border-[#E85D04]/25 transition-all duration-300 pointer-events-none" />
 
-      <div>
+      <div className="relative z-10">
         <div className={`flex items-center justify-center rounded-xl bg-[#E85D04]/10 text-[#E85D04] mb-5 w-fit ${large ? 'p-4' : 'p-3'}`}>
           <Icon size={large ? 28 : 22} />
         </div>
@@ -553,7 +555,7 @@ function ServiceCard({
         </p>
       </div>
 
-      <div className="mt-6 flex items-end justify-between">
+      <div className="relative z-10 mt-6 flex items-end justify-between">
         <span className={`font-bold text-[#E85D04] ${large ? 'text-2xl' : 'text-lg'}`}>
           {service.priceLabel}
         </span>
